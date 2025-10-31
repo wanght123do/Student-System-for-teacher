@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <windows.h>
-
+#include <teacherMenuTool.h>
 struct student {
     std::string name;
     std::string id;
