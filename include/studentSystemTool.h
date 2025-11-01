@@ -26,7 +26,7 @@ std::vector<teacher> teachers;
 
 void teacherMenu(){
     std::cout << "===========Teacher Menu===========" << std::endl;
-    std::cout<<"1.ShowAllUsers\n2.Exit"<<std::endl;
+    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Exit"<<std::endl;
     std::string choice;
     std::cin>>choice;
     if(choice=="1"){
@@ -38,6 +38,14 @@ void teacherMenu(){
         teacherMenu();
     }
     if(choice=="2"){
+        addNewStudent();
+        std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
+        std::string keyWordForReturn;
+        std::cin>>keyWordForReturn;
+        system("cls");
+        teacherMenu();
+    }
+    if(choice=="3"){
         std::cout<<"Exiting teacher menu..."<<std::endl;
         Sleep(2000);
         system("cls");
