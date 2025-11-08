@@ -30,10 +30,24 @@ void showAllUsers(){
     for(int i=0;i<teachers.size();i++){
         std::cout<<"mame:"<<teachers[i].name<<", id:"<<teachers[i].id<<std::endl;
     }
+    std::cout<<"\n";
     std::cout<<"---Student---"<<std::endl;
     for(int i=0;i<students.size();i++){
-        std::cout<<"mame:"<<students[i].name<<", id:"<<students[i].id<<std::endl;
+        std::cout<<"mame:"<<students[i].name<<", id:"<<students[i].id<<" "<<students[i].password<<std::endl;
     }
+}
+void removeStudent(){
+    std::string id;
+    std::cout<<"Please enter the id of the student to be removed:"<<std::endl;
+    std::cin>>id;
+    for(int i=0;i<students.size();i++){
+        if(students[i].id==id){
+            students.erase(students.begin()+i);
+            std::cout<<"Student removed successfully!"<<std::endl;
+            return;
+        }
+    }
+    std::cout<<"Student with the given id not found!"<<std::endl;
 }
 
 void addNewStudent(){
@@ -57,7 +71,7 @@ void addNewStudent(){
 
 void teacherMenu(){
     std::cout << "===========Teacher Menu===========" << std::endl;
-    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Exit"<<std::endl;
+    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n0.Exit"<<std::endl;
     std::string choice;
     std::cin>>choice;
     if(choice=="1"){
@@ -77,9 +91,23 @@ void teacherMenu(){
         teacherMenu();
     }
     if(choice=="3"){
+        removeStudent();
+        std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
+        std::string keyWordForReturn;
+        std::cin>>keyWordForReturn;
+        system("cls");
+        teacherMenu();
+    }
+    if(choice=="0"){
         std::cout<<"Exiting teacher menu..."<<std::endl;
         Sleep(2000);
         system("cls");
+    }
+    else{
+        std::cout<<"Invalid choice. Please try again."<<std::endl;
+        Sleep(2000);
+        system("cls");
+        teacherMenu();
     }
 }
 
