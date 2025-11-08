@@ -23,8 +23,14 @@ struct teacher {
 
 std::vector<teacher> teachers;
 
+struct studentTool{
+};
+std::vector<studentTool> studentTools;
+
+
 
 void showAllUsers(){
+    system("cls");
     std::cout<<"=======All Users======="<<std::endl;
     std::cout<<"---Teacher---"<<std::endl;
     for(int i=0;i<teachers.size();i++){
@@ -37,6 +43,7 @@ void showAllUsers(){
     }
 }
 void removeStudent(){
+    system("cls");
     std::string id;
     std::cout<<"Please enter the id of the student to be removed:"<<std::endl;
     std::cin>>id;
@@ -51,6 +58,7 @@ void removeStudent(){
 }
 
 void addNewStudent(){
+    system("cls");
     std::string name;
     std::string id;
     std::cout<<"Please enter the name of the new student:"<<std::endl;
@@ -66,7 +74,12 @@ void addNewStudent(){
     newStudent.password=password;
     students.push_back(newStudent);
     std::cout<<"New student added successfully!"<<std::endl;
+    return;
 }
+
+
+
+
 
 
 void teacherMenu(){
@@ -111,12 +124,45 @@ void teacherMenu(){
     }
 }
 
-void studentMenu(){
+
+
+void showStudentInformation(std::string studentId) {
+    for(int i=0;i<students.size();i++){
+        if(students[i].id==studentId){
+            system("cls");
+            std::cout<<"======Your Information======"<<std::endl;
+            std::cout<<"---About Your Account---"<<std::endl;
+            std::cout<<"Name: "<<students[i].name<<std::endl;
+            std::cout<<"ID: "<<students[i].id<<std::endl;
+            std::cout<<"Passcord: "<<students[i].password<<std::endl;
+            std::cout<<"\n"<<std::endl;
+            std::cout<<"---Personal Information---"<<std::endl;
+            std::cout<<"Gender: "<<students[i].gender<<std::endl;
+            std::cout<<"Birthday: "<<students[i].birthday<<std::endl;
+            std::cout<<"Head Group: "<<(students[i].ifAHeadGroup ? "Yes" : "No")<<std::endl;
+            std::cout<<"Group Information: "<<students[i].Groupinformation<<std::endl;
+            break;
+            return;
+        }
+    }
+    std::cout<<"Student with the given id not found!"<<std::endl;
+    return;
+}
+void studentMenu(std::string studentId){
+    std::string studentIdLocal=studentId;
     std::cout << "===========Student Menu===========" << std::endl;
-    std::cout<<"1.Exit"<<std::endl;
+    std::cout<<"1.Your Information\n0.Exit"<<std::endl;
     std::string choice;
     std::cin>>choice;
     if(choice=="1"){
+        showStudentInformation(studentIdLocal);
+        std::cout<<"Press any key to return to the student menu..."<<std::endl;
+        std::string keyWordForReturn;
+        std::cin>>keyWordForReturn;
+        system("cls");
+        studentMenu(studentIdLocal);
+    }
+    if(choice=="0"){
         std::cout<<"Exiting student menu..."<<std::endl;
         Sleep(2000);
         system("cls");
@@ -137,7 +183,7 @@ void signIn(const std::string& id, const std::string& password) {
             std::cout << "Student login successful: " << students[i].name << std::endl;
             Sleep(2000);
             system("cls");
-            studentMenu();
+            studentMenu(students[i].id);
             return;
         }
     }
