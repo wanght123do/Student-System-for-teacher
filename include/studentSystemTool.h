@@ -33,7 +33,7 @@ void showAllUsers(){
     std::cout<<"\n";
     std::cout<<"---Student---"<<std::endl;
     for(int i=0;i<students.size();i++){
-        std::cout<<"mame:"<<students[i].name<<", id:"<<students[i].id<<" "<<students[i].password<<std::endl;
+        std::cout<<"mame:"<<students[i].name<<", id:"<<students[i].id<<", password:"<<students[i].password<<std::endl;
     }
 }
 void removeStudent(){
