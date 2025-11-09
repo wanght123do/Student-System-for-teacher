@@ -77,14 +77,24 @@ void addNewStudent(){
     return;
 }
 
-
-
-
-
+void exchangeStudentPassword(std::string studentId){
+    system("cls");
+    std::string newPassword;
+    std::cout<<"Please enter the new password:"<<std::endl;
+    std::cin>>newPassword;
+    for(int i=0;i<students.size();i++){
+        if(students[i].id==studentId){
+            students[i].password=newPassword;
+            std::cout<<"Password changed successfully!"<<std::endl;
+            return;
+        }
+    }
+    std::cout<<"Student with the given id not found!"<<std::endl;
+}
 
 void teacherMenu(){
     std::cout << "===========Teacher Menu===========" << std::endl;
-    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n0.Exit"<<std::endl;
+    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n4.Exchange Student Password\n0.Exit"<<std::endl;
     std::string choice;
     std::cin>>choice;
     if(choice=="1"){
@@ -105,6 +115,18 @@ void teacherMenu(){
     }
     else if(choice=="3"){
         removeStudent();
+        std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
+        std::string keyWordForReturn;
+        std::cin>>keyWordForReturn;
+        system("cls");
+        teacherMenu();
+    }
+    else if(choice=="4"){
+        system("cls");
+        std::string studentId;
+        std::cout<<"Please enter the id of the student whose password you want to change:"<<std::endl;
+        std::cin>>studentId;
+        exchangeStudentPassword(studentId);
         std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
         std::string keyWordForReturn;
         std::cin>>keyWordForReturn;
