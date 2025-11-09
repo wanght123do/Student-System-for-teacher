@@ -4,6 +4,7 @@
 
 
 int main() {
+    system("cls");
     std::cout << "Welcome to the Student Management System\n";
     Sleep(3000);
     system("cls");
