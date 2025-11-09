@@ -95,7 +95,7 @@ void teacherMenu(){
         system("cls");
         teacherMenu();
     }
-    if(choice=="2"){
+    else if(choice=="2"){
         addNewStudent();
         std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
         std::string keyWordForReturn;
@@ -103,7 +103,7 @@ void teacherMenu(){
         system("cls");
         teacherMenu();
     }
-    if(choice=="3"){
+    else if(choice=="3"){
         removeStudent();
         std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
         std::string keyWordForReturn;
@@ -111,7 +111,8 @@ void teacherMenu(){
         system("cls");
         teacherMenu();
     }
-    if(choice=="0"){
+    else if(choice=="0"){
+        system("cls");
         std::cout<<"Exiting teacher menu..."<<std::endl;
         Sleep(2000);
         system("cls");
@@ -162,10 +163,17 @@ void studentMenu(std::string studentId){
         system("cls");
         studentMenu(studentIdLocal);
     }
-    if(choice=="0"){
+    else if(choice=="0"){
+        system("cls");
         std::cout<<"Exiting student menu..."<<std::endl;
         Sleep(2000);
         system("cls");
+    }
+    else{
+        std::cout<<"Invalid choice. Please try again."<<std::endl;
+        Sleep(2000);
+        system("cls");
+        studentMenu(studentIdLocal);
     }
 }
 
