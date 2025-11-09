@@ -3,6 +3,17 @@
 #include <string>
 #include <windows.h>
 
+struct grade {
+    std::string examYear;
+    int chinese;
+    int math;
+    int english;
+    int history;
+    int geography;
+    int biology;
+    int physics;
+    int politics;
+};
 struct student {
     std::string name;
     std::string id;
@@ -11,6 +22,7 @@ struct student {
     std::string password;
     bool ifAHeadGroup;
     std::string Groupinformation;
+    std::vector<grade> grades;
 };
 
 std::vector<student> students;
@@ -22,11 +34,6 @@ struct teacher {
 };
 
 std::vector<teacher> teachers;
-
-struct studentTool{
-};
-std::vector<studentTool> studentTools;
-
 
 
 void showAllUsers(){
@@ -92,9 +99,56 @@ void exchangeStudentPassword(std::string studentId){
     std::cout<<"Student with the given id not found!"<<std::endl;
 }
 
+void writerStudentGrede(){
+    system("cls");
+    std::string examYearForWrite;
+    std::cout<<"Please enter the exam year of the grade you want to write:"<<std::endl;
+    std::cin>>examYearForWrite;
+    int chineseForWrite;
+    int mathForWrite;
+    int englishForWrite;
+    int historyForWrite;
+    int geographyForWrite;
+    int biologyForWrite;
+    int physicsForWrite;
+    int politicsForWrite;
+    for(int i=0;i<students.size();i++){
+        std::cout<<"Please enter the grades for student "<<students[i].name<<" (ID: "<<students[i].id<<"):"<<std::endl;
+        std::cout<<"Chinese: ";
+        std::cin>>chineseForWrite;
+        std::cout<<"Math: ";
+        std::cin>>mathForWrite;
+        std::cout<<"English: ";
+        std::cin>>englishForWrite;
+        std::cout<<"History: ";
+        std::cin>>historyForWrite;
+        std::cout<<"Geography: ";
+        std::cin>>geographyForWrite;
+        std::cout<<"Biology: ";
+        std::cin>>biologyForWrite;
+        std::cout<<"Physics: ";
+        std::cin>>physicsForWrite;
+        std::cout<<"Politics: ";
+        std::cin>>politicsForWrite;
+        grade newGrade;
+        newGrade.examYear=examYearForWrite;
+        newGrade.chinese=chineseForWrite;
+        newGrade.math=mathForWrite;
+        newGrade.english=englishForWrite;
+        newGrade.history=historyForWrite;
+        newGrade.geography=geographyForWrite;
+        newGrade.biology=biologyForWrite;
+        newGrade.physics=physicsForWrite;
+        newGrade.politics=politicsForWrite;
+        students[i].grades.push_back(newGrade);
+        system("cls");
+    }
+    std::cout<<"Grades written successfully!"<<std::endl;
+    system("cls");
+}
 void teacherMenu(){
     std::cout << "===========Teacher Menu===========" << std::endl;
-    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n4.Exchange Student Password\n0.Exit"<<std::endl;
+    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n4.Exchange Student Password\n5.Write Student Grade\n0.Exit"<<std::endl;
     std::string choice;
     std::cin>>choice;
     if(choice=="1"){
@@ -127,6 +181,14 @@ void teacherMenu(){
         std::cout<<"Please enter the id of the student whose password you want to change:"<<std::endl;
         std::cin>>studentId;
         exchangeStudentPassword(studentId);
+        std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
+        std::string keyWordForReturn;
+        std::cin>>keyWordForReturn;
+        system("cls");
+        teacherMenu();
+    }
+    else if(choice=="5"){
+        writerStudentGrede();
         std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
         std::string keyWordForReturn;
         std::cin>>keyWordForReturn;
