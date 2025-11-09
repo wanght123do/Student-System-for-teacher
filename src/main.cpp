@@ -9,7 +9,7 @@ int main() {
     Sleep(3000);
     system("cls");
     while (true) {
-        std::cout << "1. Sign In\n2. Sign Up\n3. Exit\nChoose an option: ";
+        std::cout << "1. Sign In\n2. Sign Up\n0. Exit\nChoose an option: ";
         std::string choice;
         std::cin >> choice;
         system("cls");
@@ -24,11 +24,11 @@ int main() {
         } else if (choice == "2") {
             system("cls");
             signUp();
-        } else if (choice == "3") {
+        } else if (choice == "0") {
             std::cout << "Exiting the system. Goodbye!\n";
             Sleep(2000);
             system("cls");
-            break;
+            return 0;
         } else {
             std::cout << "Invalid choice. Please try again.\n";
             system("cls");
