@@ -13,6 +13,7 @@ struct grade {
     int biology;
     int physics;
     int politics;
+    int total;
 };
 struct student {
     std::string name;
@@ -140,6 +141,8 @@ void writerStudentGrede(){
         newGrade.biology=biologyForWrite;
         newGrade.physics=physicsForWrite;
         newGrade.politics=politicsForWrite;
+        int totalForWrite=chineseForWrite+mathForWrite+englishForWrite+historyForWrite+geographyForWrite+biologyForWrite+physicsForWrite+politicsForWrite;
+        newGrade.total=totalForWrite;
         students[i].grades.push_back(newGrade);
         system("cls");
     }
@@ -147,7 +150,7 @@ void writerStudentGrede(){
     system("cls");
 }
 
-void showstudentgrade(std::string studentId){
+void showStudentGrade(std::string studentId){
     for(int i=0;i<students.size();i++){
         if(students[i].id==studentId){
             system("cls");
@@ -162,6 +165,7 @@ void showstudentgrade(std::string studentId){
                 std::cout<<"Biology: "<<students[i].grades[j].biology<<std::endl;
                 std::cout<<"Physics: "<<students[i].grades[j].physics<<std::endl;
                 std::cout<<"Politics: "<<students[i].grades[j].politics<<std::endl;
+                std::cout<<"Total: "<<students[i].grades[j].total<<std::endl;
                 std::cout<<"\n"<<std::endl;
             }
             return;
@@ -170,9 +174,126 @@ void showstudentgrade(std::string studentId){
     std::cout<<"Student with the given id not found!"<<std::endl;
     return;
 }
+
+void analyzeStudentGrades() {
+    system("cls");
+    
+    if (students.empty()) {
+        std::cout << "No students found for analysis!" << std::endl;
+        return;
+    }
+
+    // 计算各科目平均分
+    int totalStudentsWithGrades = 0;
+    double sumChinese = 0, sumMath = 0, sumEnglish = 0, sumHistory = 0;
+    double sumGeography = 0, sumBiology = 0, sumPhysics = 0, sumPolitics = 0;
+    double sumTotal = 0;
+
+    // 统计有成绩的学生数量和各科总分
+    for (int i = 0; i < students.size(); i++) {
+        if (!students[i].grades.empty()) {
+            totalStudentsWithGrades++;
+            for (int j = 0; j < students[i].grades.size(); j++) {
+                sumChinese += students[i].grades[j].chinese;
+                sumMath += students[i].grades[j].math;
+                sumEnglish += students[i].grades[j].english;
+                sumHistory += students[i].grades[j].history;
+                sumGeography += students[i].grades[j].geography;
+                sumBiology += students[i].grades[j].biology;
+                sumPhysics += students[i].grades[j].physics;
+                sumPolitics += students[i].grades[j].politics;
+                sumTotal += students[i].grades[j].total;
+            }
+        }
+    }
+
+    if (totalStudentsWithGrades == 0) {
+        std::cout << "No grades available for analysis!" << std::endl;
+        return;
+    }
+
+    
+    double avgChinese = sumChinese / totalStudentsWithGrades;
+    double avgMath = sumMath / totalStudentsWithGrades;
+    double avgEnglish = sumEnglish / totalStudentsWithGrades;
+    double avgHistory = sumHistory / totalStudentsWithGrades;
+    double avgGeography = sumGeography / totalStudentsWithGrades;
+    double avgBiology = sumBiology / totalStudentsWithGrades;
+    double avgPhysics = sumPhysics / totalStudentsWithGrades;
+    double avgPolitics = sumPolitics / totalStudentsWithGrades;
+    double avgTotal = sumTotal / totalStudentsWithGrades;
+
+    
+    std::cout << "====== All Students Average Grades ======" << std::endl;
+    std::cout << "Students with grades: " << totalStudentsWithGrades << std::endl;
+    std::cout << "Chinese: " << avgChinese << std::endl;
+    std::cout << "Math: " << avgMath << std::endl;
+    std::cout << "English: " << avgEnglish << std::endl;
+    std::cout << "History: " << avgHistory << std::endl;
+    std::cout << "Geography: " << avgGeography << std::endl;
+    std::cout << "Biology: " << avgBiology << std::endl;
+    std::cout << "Physics: " << avgPhysics << std::endl;
+    std::cout << "Politics: " << avgPolitics << std::endl;
+    std::cout << "Total Average: " << avgTotal << std::endl;
+
+    std::cout << "\n======== Student Performance Analysis ========" << std::endl;
+
+    
+    std::string subjects[] = {"Chinese", "Math", "English", "History", "Geography", "Biology", "Physics", "Politics", "Total"};
+    double averages[] = {avgChinese, avgMath, avgEnglish, avgHistory, avgGeography, avgBiology, avgPhysics, avgPolitics, avgTotal};
+
+    for (int subj = 0; subj < 9; subj++) {
+        std::cout << "\nStudents above average in " << subjects[subj] << ":" << std::endl;
+        bool found = false;
+        
+        for (int i = 0; i < students.size(); i++) {
+            for (int j = 0; j < students[i].grades.size(); j++) {
+                double score = 0;
+                switch (subj) {
+                    case 0: score = students[i].grades[j].chinese; break;
+                    case 1: score = students[i].grades[j].math; break;
+                    case 2: score = students[i].grades[j].english; break;
+                    case 3: score = students[i].grades[j].history; break;
+                    case 4: score = students[i].grades[j].geography; break;
+                    case 5: score = students[i].grades[j].biology; break;
+                    case 6: score = students[i].grades[j].physics; break;
+                    case 7: score = students[i].grades[j].politics; break;
+                    case 8: score = students[i].grades[j].total; break;
+                }
+                
+                if (score > averages[subj]) {
+                    std::cout << "Name: " << students[i].name << ", ID: " << students[i].id 
+                              << ", Score: " << score << std::endl;
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            std::cout << "No students above average in this subject." << std::endl;
+        }
+    }
+
+    std::cout << "\n======== Top Performing Students ========" << std::endl;
+    student* topStudent = nullptr;
+    double maxTotal = 0;
+
+    for (int i = 0; i < students.size(); i++) {
+        for (int j = 0; j < students[i].grades.size(); j++) {
+            if (students[i].grades[j].total > maxTotal) {
+                maxTotal = students[i].grades[j].total;
+                topStudent = &students[i];
+            }
+        }
+    }
+
+    if (topStudent != nullptr) {
+        std::cout << "Top Student: " << topStudent->name << " (ID: " << topStudent->id 
+                  << ") with total score: " << maxTotal << std::endl;
+    }
+}
 void teacherMenu(){
     std::cout << "===========Teacher Menu===========" << std::endl;
-    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n4.Exchange Student Password\n5.Write Student Grade\n6.Show student Grade\n0.Exit"<<std::endl;
+    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n4.Exchange Student Password\n5.Write Student Grade\n6.Show student Grade\n7.\nAnalysis the student grade\n0.Exit"<<std::endl;
     std::string choice;
     std::cin>>choice;
     if(choice=="1"){
@@ -224,7 +345,15 @@ void teacherMenu(){
         std::string studentId;
         std::cout<<"Please enter the id of the student whose grades you want to see:"<<std::endl;
         std::cin>>studentId;
-        showstudentgrade(studentId);
+        showStudentGrade(studentId);
+        std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
+        std::string keyWordForReturn;
+        std::cin>>keyWordForReturn;
+        system("cls");
+        teacherMenu();
+    }
+    else if(choice=="7"){
+        analyzeStudentGrades();
         std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
         std::string keyWordForReturn;
         std::cin>>keyWordForReturn;
@@ -244,8 +373,6 @@ void teacherMenu(){
         teacherMenu();
     }
 }
-
-
 
 void showStudentInformation(std::string studentId) {
     for(int i=0;i<students.size();i++){
@@ -268,6 +395,7 @@ void showStudentInformation(std::string studentId) {
     std::cout<<"Student with the given id not found!"<<std::endl;
     return;
 }
+
 void studentMenu(std::string studentId){
     std::string studentIdLocal=studentId;
     std::cout << "===========Student Menu===========" << std::endl;
@@ -283,7 +411,7 @@ void studentMenu(std::string studentId){
         studentMenu(studentIdLocal);
     }
     else if(choice=="2"){
-        showstudentgrade(studentIdLocal);
+        showStudentGrade(studentIdLocal);
         std::cout<<"Press any key to return to the student menu..."<<std::endl;
         std::string keyWordForReturn;
         std::cin>>keyWordForReturn;
