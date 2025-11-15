@@ -146,9 +146,33 @@ void writerStudentGrede(){
     std::cout<<"Grades written successfully!"<<std::endl;
     system("cls");
 }
+
+void showstudentgrade(std::string studentId){
+    for(int i=0;i<students.size();i++){
+        if(students[i].id==studentId){
+            system("cls");
+            std::cout<<"======Your Grades======"<<std::endl;
+            for(int j=0;j<students[i].grades.size();j++){
+                std::cout<<"---Exam Year: "<<students[i].grades[j].examYear<<"---"<<std::endl;
+                std::cout<<"Chinese: "<<students[i].grades[j].chinese<<std::endl;
+                std::cout<<"Math: "<<students[i].grades[j].math<<std::endl;
+                std::cout<<"English: "<<students[i].grades[j].english<<std::endl;
+                std::cout<<"History: "<<students[i].grades[j].history<<std::endl;
+                std::cout<<"Geography: "<<students[i].grades[j].geography<<std::endl;
+                std::cout<<"Biology: "<<students[i].grades[j].biology<<std::endl;
+                std::cout<<"Physics: "<<students[i].grades[j].physics<<std::endl;
+                std::cout<<"Politics: "<<students[i].grades[j].politics<<std::endl;
+                std::cout<<"\n"<<std::endl;
+            }
+            return;
+        }
+    }
+    std::cout<<"Student with the given id not found!"<<std::endl;
+    return;
+}
 void teacherMenu(){
     std::cout << "===========Teacher Menu===========" << std::endl;
-    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n4.Exchange Student Password\n5.Write Student Grade\n0.Exit"<<std::endl;
+    std::cout<<"1.ShowAllUsers\n2.add New Student\n3.Remove Student\n4.Exchange Student Password\n5.Write Student Grade\n6.Show student Grade\n0.Exit"<<std::endl;
     std::string choice;
     std::cin>>choice;
     if(choice=="1"){
@@ -195,6 +219,18 @@ void teacherMenu(){
         system("cls");
         teacherMenu();
     }
+    else if(choice=="6"){
+        system("cls");
+        std::string studentId;
+        std::cout<<"Please enter the id of the student whose grades you want to see:"<<std::endl;
+        std::cin>>studentId;
+        showstudentgrade(studentId);
+        std::cout<<"Press any key to return to the teacher menu..."<<std::endl;
+        std::string keyWordForReturn;
+        std::cin>>keyWordForReturn;
+        system("cls");
+        teacherMenu();
+    }
     else if(choice=="0"){
         system("cls");
         std::cout<<"Exiting teacher menu..."<<std::endl;
@@ -226,7 +262,6 @@ void showStudentInformation(std::string studentId) {
             std::cout<<"Birthday: "<<students[i].birthday<<std::endl;
             std::cout<<"Head Group: "<<(students[i].ifAHeadGroup ? "Yes" : "No")<<std::endl;
             std::cout<<"Group Information: "<<students[i].Groupinformation<<std::endl;
-            break;
             return;
         }
     }
@@ -236,11 +271,19 @@ void showStudentInformation(std::string studentId) {
 void studentMenu(std::string studentId){
     std::string studentIdLocal=studentId;
     std::cout << "===========Student Menu===========" << std::endl;
-    std::cout<<"1.Your Information\n0.Exit"<<std::endl;
+    std::cout<<"1.Your Information\n2.Show Your Grade\n0.Exit"<<std::endl;
     std::string choice;
     std::cin>>choice;
     if(choice=="1"){
         showStudentInformation(studentIdLocal);
+        std::cout<<"Press any key to return to the student menu..."<<std::endl;
+        std::string keyWordForReturn;
+        std::cin>>keyWordForReturn;
+        system("cls");
+        studentMenu(studentIdLocal);
+    }
+    else if(choice=="2"){
+        showstudentgrade(studentIdLocal);
         std::cout<<"Press any key to return to the student menu..."<<std::endl;
         std::string keyWordForReturn;
         std::cin>>keyWordForReturn;
