@@ -7,7 +7,7 @@ Teacher Management: View teacher information
 Student Management: View and add student information
 
 ## Second:How to use
-if you want to use this system,you need to look this infoemation carefuly .  
+please use the "build.bat" file to use.
 
 ## Third:Update
 We will update this system.These are some rules about update.  
