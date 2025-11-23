@@ -11,58 +11,63 @@
 #include "../include/menus/TeacherMenu.h"
 #include "../include/menus/StudentMenu.h"
 
-// 全局数据
-std::vector<Student> students;
-std::vector<Teacher> teachers;
+
+
+
 
 void showMainMenu() {
     std::cout << "=========== Student Management System ===========" << std::endl;
-    std::cout << "1. Login" << std::endl;
+    std::cout << "1. Sign In" << std::endl;
     std::cout << "2. Sign Up" << std::endl;
     std::cout << "0. Exit" << std::endl;
     std::cout << "Please enter your choice: ";
-}
-
-void handleLogin(AuthService& authService, StudentService& studentService, GradeService& gradeService) {
-    std::string id, password;
-    std::cout << "Enter your ID: ";
-    std::cin >> id;
-    std::cout << "Enter your password: ";
-    std::cin >> password;
-    
-    if (authService.login(id, password)) {
-        // 登录成功后的菜单导航在AuthService中处理
-    }
-}
-
-void handleSignUp(AuthService& authService) {
-    authService.registerStudent(); // 或者 registerTeacher()
-}
-
-int main() {
-    // 初始化服务
-    StudentService studentService(students);
-    GradeService gradeService(students);
-    AuthService authService(students, teachers);
-    
     std::string choice;
-    
-    while (true) {
-        showMainMenu();
-        std::cin >> choice;
-        
-        if (choice == "1") {
-            handleLogin(authService, studentService, gradeService);
-        } else if (choice == "2") {
-            
-            handleSignUp(authService);
-        } else if (choice == "0") {
-            std::cout << "Goodbye!" << std::endl;
-            break;
-        } else {
-            std::cout << "Invalid choice. Please try again." << std::endl;
+    std::cin>>choice;
+    if(choice=="2"){
+        system("cls");
+        std::cout<<"Do you want to be a teacher or student?"<<std::endl;
+        std::string s;
+        std::cin>>s;
+        if(s=="teacher"||s=="Teacher"){
+            void teacherSignUp();
+        }
+        if(s=="student"||s=="Student"){
+            void studentSignUp();
+        }
+        else{
+            std::cout<<"Please enter right choice"<<std::endl;
         }
     }
-    
+    else if(choice=="1"){
+        system("cls");
+        std::cout<<"Are you a teacher or student?"<<std::endl;
+        std::string s;
+        std::cin>>s;
+        std::string id,password;
+        std::cout<<"Your ID:";
+        std::cin>>id;
+        std::cout<<"Your Password:";
+        std::cin>>password;
+        if(s=="teacher"||s=="Teacher"){
+            teacherSignIn(id,password);
+        }
+        if(s=="student"||s=="Student"){
+            studentSignIn(id,password);
+        }
+    }
+    else if(choice=="0"){
+        std::cout<<"Thank you for using!Goodbye!"<<std::endl;
+        return ;
+    }
+    else{
+        std::cout<<"Error!"<<std::endl;
+    }
+}
+
+int main(){
+    system("cls");
+    std::cout<<"Welcome to this system!"<<std::endl;
+    Sleep(2000);
+    showMainMenu();
     return 0;
 }

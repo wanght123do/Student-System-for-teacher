@@ -2,93 +2,81 @@
 #include <iostream>
 #include <windows.h>
 
-AuthService::AuthService(std::vector<Student>& studentList, std::vector<Teacher>& teacherList)
-    : students(studentList), teachers(teacherList) {}
-
-bool AuthService::login(const std::string& id, const std::string& password) {
-    // 检查学生
-    for (size_t i = 0; i < students.size(); i++) {
-        if (students[i].id == id && students[i].password == password) {
-            std::cout << "Student login successful: " << students[i].name << std::endl;
-            Sleep(2000);
-            system("cls");
-            // 这里需要返回学生信息或调用学生菜单
-            return true;
+void studentSignIn(const std::string& id, const std::string& password){
+    for(int i=0;i<students.size();i++){
+        if(students[i].id==id && students[i].password==password){
+            
+            std::cout<<"student login successful!  Name:"<<students[i].name<<std::endl;
+            Sleep(1000);
+            return;
         }
     }
-    
-    // 检查教师
-    for (size_t i = 0; i < teachers.size(); i++) {
-        if (teachers[i].id == id && teachers[i].password == password) {
-            std::cout << "Teacher login successful: " << teachers[i].name << std::endl;
-            Sleep(2000);
-            system("cls");
-            // 这里需要调用教师菜单
-            return true;
+    std::cout<<"student login failed!"<<std::endl;
+    Sleep(1000);
+}
+
+void teacherSignIn(const std::string& id, const std::string& password){
+    for(int i=0;i<teachers.size();i++){
+        if(teachers[i].id==id && teachers[i].password==password){
+            
+            std::cout<<"teacher login successful!  Name:"<<teachers[i].name<<std::endl;
+            Sleep(1000);
+            return;
         }
     }
-    
-    std::cout << "Login failed: Invalid ID or password.\n";
-    Sleep(2000);
-    system("cls");
-    return false;
+    std::cout<<"teacher login failed!"<<std::endl;
+    Sleep(1000);
 }
 
-bool AuthService::confirmPassword(const std::string& password) {
-    std::string passwordConfirm;
-    std::cout << "Confirm your password: ";
-    std::cin >> passwordConfirm;
-    return password == passwordConfirm;
-}
-
-void AuthService::registerStudent() {
-    Student newStudent;
-    std::cout << "Your name: ";
-    std::cin >> newStudent.name;
-    std::cout << "Your id: ";
-    std::cin >> newStudent.id;
-    std::cout << "Are you a boy or a girl? ";
-    std::cin >> newStudent.gender;
-    std::cout << "Your birthday: ";
-    std::cin >> newStudent.birthday;
-    
-    std::cout << "Your password: ";
-    std::cin >> newStudent.password;
-    
-    while (!confirmPassword(newStudent.password)) {
-        std::cout << "Passwords do not match. Please try again.\n";
-    }
-    
-    std::cout << "Are you a head group?(y/n) ";
-    char headGroupChoice;
-    std::cin >> headGroupChoice;
-    newStudent.ifAHeadGroup = (headGroupChoice == 'Y' || headGroupChoice == 'y');
-    
-    std::cout << "Enter your group information:(G1/G2/G3/G4/G5/G6) ";
-    std::cin >> newStudent.Groupinformation;
-    
-    students.push_back(newStudent);
-    std::cout << "Student registration successful!\n";
-    Sleep(2000);
-    system("cls");
-}
-
-void AuthService::registerTeacher() {
-    Teacher newTeacher;
-    std::cout << "Your name: ";
-    std::cin >> newTeacher.name;
-    std::cout << "Your id: ";
-    std::cin >> newTeacher.id;
-    
-    std::cout << "Your password: ";
-    std::cin >> newTeacher.password;
-    
-    while (!confirmPassword(newTeacher.password)) {
-        std::cout << "Passwords do not match. Please try again.\n";
-    }
-    
+void teacherSignUp(){
+    std::string name,id,password,subject;
+    std::cout<<"Enter teacher name: ";
+    std::cin>>name;
+    std::cout<<"Enter teacher id: ";
+    std::cin>>id;
+    std::cout<<"Enter teacher password: ";
+    std::cin>>password;
+    std::cout<<"Enter teacher subject: ";
+    std::cin>>subject;
+    Teacher newTeacher={name,id,password,subject};
     teachers.push_back(newTeacher);
-    std::cout << "Teacher registration successful!\n";
-    Sleep(2000);
-    system("cls");
+    std::cout<<"Teacher sign up successful!"<<std::endl;
+    Sleep(1000);
+}
+void studentSignUp(){
+    std::string name,id,gender,birthday,password;
+    std::cout<<"Enter student name: ";
+    std::cin>>name;
+    std::cout<<"Enter student id: ";
+    std::cin>>id;
+    std::cout<<"Enter student gender: ";
+    std::cin>>gender;
+    std::cout<<"Enter student birthday: ";
+    std::cin>>birthday;
+    std::cout<<"Enter student password: ";
+    std::cin>>password;
+    while(1){
+        std::string passwordConfirm;
+        std::cout<<"Confirm student password: ";
+        std::cin>>passwordConfirm;
+        if(passwordConfirm==password){
+            break;
+        }else{
+            std::cout<<"Passwords do not match. Please try again."<<std::endl;
+        }
+    }
+    bool ifAHeadGroup=false;
+    std::cout<<"Is the student a head group member? (1 for yes, 0 for no): ";
+    int headGroupInput;
+    std::cin>>headGroupInput;
+    if(headGroupInput==1){
+        ifAHeadGroup=true;
+    }
+    std::string Groupinformation;
+    std::cout<<"Enter student group information: ";
+    std::cin>>Groupinformation;
+    Student newStudent={name,id,gender,birthday,password,ifAHeadGroup,Groupinformation,{}};
+    students.push_back(newStudent);
+    std::cout<<"Student sign up successful!"<<std::endl;
+    Sleep(1000);
 }

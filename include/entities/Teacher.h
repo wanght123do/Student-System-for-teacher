@@ -7,8 +7,7 @@ struct Teacher {
     std::string name;
     std::string id;
     std::string password;
-    
-    void displayInfo() const;
+    std::string subject;
 };
-
+std::vector<Teacher> teachers;
 #endif

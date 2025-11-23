@@ -15,9 +15,7 @@ struct Student {
     std::string Groupinformation;
     std::vector<Grade> grades;
     
-    // 学生相关方法
-    void displayInfo() const;
-    void displayGrades() const;
+    
 };
-
+std::vector<Student> students;
 #endif

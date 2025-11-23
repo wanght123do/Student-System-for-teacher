@@ -15,8 +15,6 @@ struct Grade {
     int politics;
     int total;
     
-    // 计算总分的方法
-    void calculateTotal();
 };
 
 #endif
