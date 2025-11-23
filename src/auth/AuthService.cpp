@@ -1,31 +1,31 @@
-#include "../../include/auth/AuthService.h"
+#include "auth/AuthService.h"
 #include <iostream>
 #include <windows.h>
 
-void studentSignIn(const std::string& id, const std::string& password){
+bool studentSignIn(const std::string& id, const std::string& password){
     for(int i=0;i<students.size();i++){
         if(students[i].id==id && students[i].password==password){
-            
             std::cout<<"student login successful!  Name:"<<students[i].name<<std::endl;
             Sleep(1000);
-            return;
+            return true;
         }
     }
     std::cout<<"student login failed!"<<std::endl;
     Sleep(1000);
+    return false;
 }
 
-void teacherSignIn(const std::string& id, const std::string& password){
+bool teacherSignIn(const std::string& id, const std::string& password){
     for(int i=0;i<teachers.size();i++){
         if(teachers[i].id==id && teachers[i].password==password){
-            
             std::cout<<"teacher login successful!  Name:"<<teachers[i].name<<std::endl;
             Sleep(1000);
-            return;
+            return true;
         }
     }
     std::cout<<"teacher login failed!"<<std::endl;
     Sleep(1000);
+    return false;
 }
 
 void teacherSignUp(){
@@ -43,6 +43,7 @@ void teacherSignUp(){
     std::cout<<"Teacher sign up successful!"<<std::endl;
     Sleep(1000);
 }
+
 void studentSignUp(){
     std::string name,id,gender,birthday,password;
     std::cout<<"Enter student name: ";

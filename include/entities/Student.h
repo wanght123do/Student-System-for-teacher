@@ -14,8 +14,8 @@ struct Student {
     bool ifAHeadGroup;
     std::string Groupinformation;
     std::vector<Grade> grades;
-    
-    
 };
-std::vector<Student> students;
+
+extern std::vector<Student> students;
+
 #endif

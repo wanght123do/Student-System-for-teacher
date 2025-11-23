@@ -5,9 +5,9 @@
 #include "../entities/Student.h"
 #include "../entities/Teacher.h"
 
-void studentSignIn(const std::string& id, const std::string& password){}
-void teacherSignIn(const std::string& id, const std::string& password){}
-void teacherSignUp(){}
-void studentSignUp(){}
+bool studentSignIn(const std::string& id, const std::string& password);
+bool teacherSignIn(const std::string& id, const std::string& password);
+void teacherSignUp();
+void studentSignUp();
 
 #endif

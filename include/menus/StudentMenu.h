@@ -1,9 +1,7 @@
 #ifndef STUDENT_MENU_H
 #define STUDENT_MENU_H
 
-#include "../entities/Student.h"
-#include "../services/StudentService.h"
-#include "../services/GradeService.h"
+#include <string>
 
 void showStudentMenu(std::string studentId);
 void viewGrades(std::string studentId);

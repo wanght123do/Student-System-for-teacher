@@ -1,69 +1,72 @@
-#include <../../include/entities/Grade.h>
-#include <../../include/services/GradeService.h>
-#include <../../include/menus/teacherMenu.h>
-#include <../../include/entities/Teacher.h>
+#include "entities/Grade.h"
+#include "services/GradeService.h"
+#include "menus/teacherMenu.h"
+#include "entities/Teacher.h"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <windows.h>
-#include <../../include/entities/Student.h>
+#include "entities/Student.h"
+
 void showTeacherInforation(std::string teacherId){
     for(int i=0;i<teachers.size();i++){
         if(teachers[i].id==teacherId){
-            printf("Name: %s",&teachers[i].name);
-            printf("Password: %s",&teachers[i].password);
-            printf("ID: %s",&teachers[i].id);
-            printf("Subject: %s",&teachers[i].subject);
+            std::cout<<"Name: "<<teachers[i].name<<std::endl;
+            std::cout<<"Password: "<<teachers[i].password<<std::endl;
+            std::cout<<"ID: "<<teachers[i].id<<std::endl;
+            std::cout<<"Subject: "<<teachers[i].subject<<std::endl;
             break;
         }
     }
-    printf("Enter any key to return to the previous menu...");
+    std::cout<<"Enter any key to return to the previous menu...";
     std::string c;
-    scanf("%s",&c);
-    return;
+    std::cin>>c;
 }
 
 void writeStudentGrade(std::string teacherId){
     for(int i=0;i<students.size();i++){
         std::cout<<"Student Name: "<<students[i].name<<", ID: "<<students[i].id<<std::endl;
+    }
     std::string examYrearForwrite;
     int chineseforwrite,mathforwrite,englishforwrite,biologyforwrite,historyforwrite,geographyforwrite,politicsforwrite,physicsforwrite;
-    printf("Please enter the exam year: ");
-    scanf("%s",&examYrearForwrite);
-    printf("Please enter the Chinese grade: ");
-    scanf("%d",&chineseforwrite);
-    printf("Please enter the Math grade: ");
-    scanf("%d",&mathforwrite);
-    printf("Please enter the English grade: ");
-    scanf("%d",&englishforwrite);
-    printf("Please enter the Biology grade: ");
-    scanf("%d",&biologyforwrite);
-    printf("Please enter the History grade: ");
-    scanf("%d",&historyforwrite);
-    printf("Please enter the Geography grade: ");
-    scanf("%d",&geographyforwrite);
-    printf("Please enter the Politics grade: ");
-    scanf("%d",&politicsforwrite);
-    printf("Please enter the Physics grade: ");
-    scanf("%d",&physicsforwrite);
-    Grade newGrade;
-    newGrade.examYear=examYrearForwrite;
-    newGrade.chinese=chineseforwrite;
-    newGrade.math=mathforwrite;
-    newGrade.english=englishforwrite;
-    newGrade.biology=biologyforwrite;
-    newGrade.history=historyforwrite;
-    newGrade.geography=geographyforwrite;
-    newGrade.politics=politicsforwrite;
-    newGrade.physics=physicsforwrite;
-    newGrade.total=chineseforwrite+mathforwrite+englishforwrite+biologyforwrite+historyforwrite+geographyforwrite+politicsforwrite+physicsforwrite;
-    students[i].grades.push_back(newGrade);
-    system("cls");
+    std::cout<<"Please enter the exam year: ";
+    std::cin>>examYrearForwrite;
+    std::cout<<"Please enter the Chinese grade: ";
+    std::cin>>chineseforwrite;
+    std::cout<<"Please enter the Math grade: ";
+    std::cin>>mathforwrite;
+    std::cout<<"Please enter the English grade: ";
+    std::cin>>englishforwrite;
+    std::cout<<"Please enter the Biology grade: ";
+    std::cin>>biologyforwrite;
+    std::cout<<"Please enter the History grade: ";
+    std::cin>>historyforwrite;
+    std::cout<<"Please enter the Geography grade: ";
+    std::cin>>geographyforwrite;
+    std::cout<<"Please enter the Politics grade: ";
+    std::cin>>politicsforwrite;
+    std::cout<<"Please enter the Physics grade: ";
+    std::cin>>physicsforwrite;
+    
+    for(int i=0;i<students.size();i++){
+        Grade newGrade;
+        newGrade.examYear=examYrearForwrite;
+        newGrade.chinese=chineseforwrite;
+        newGrade.math=mathforwrite;
+        newGrade.english=englishforwrite;
+        newGrade.biology=biologyforwrite;
+        newGrade.history=historyforwrite;
+        newGrade.geography=geographyforwrite;
+        newGrade.politics=politicsforwrite;
+        newGrade.physics=physicsforwrite;
+        newGrade.total=chineseforwrite+mathforwrite+englishforwrite+biologyforwrite+historyforwrite+geographyforwrite+politicsforwrite+physicsforwrite;
+        students[i].grades.push_back(newGrade);
     }
-    printf("All student grades have been entered. Press any key to return to the previous menu...");
+    
+    system("cls");
+    std::cout<<"All student grades have been entered. Press any key to return to the previous menu...";
     std::string c;
     std::cin>>c;
-    return;
 }
 
 void showStudentGrade(std::string teacherId){
@@ -93,7 +96,6 @@ void showStudentGrade(std::string teacherId){
     std::cout<<"Enter any key to return to the previous menu...";
     std::string c;
     std::cin>>c;
-    return;
 }
 
 void addStudent(std::string teacherId){
@@ -125,7 +127,6 @@ void addStudent(std::string teacherId){
     std::cout<<"Student added successfully. Press any key to return to the previous menu...";
     std::string c;
     std::cin>>c;
-    return;
 }
 
 void removeStudent(std::string teacherId){
@@ -144,7 +145,6 @@ void removeStudent(std::string teacherId){
     std::cout<<"Student ID not found. Press any key to return to the previous menu...";
     std::string c;
     std::cin>>c;
-    return;
 }
 
 void exchangeStudentPassword(std::string teacherId){
@@ -165,29 +165,76 @@ void exchangeStudentPassword(std::string teacherId){
     std::cout<<"Student ID not found. Press any key to return to the previous menu...";
     std::string c;
     std::cin>>c;
-    return;
 }
-
+void showAllUsers(std::string teacherId){
+    std::cout<<"--------All Users--------"<<std::endl;
+    std::cout<<"---Teachers---"<<std::endl;
+    for(int i=0;i<teachers.size();i++){
+        std::cout<<"Name: "<<teachers[i].name<<", ID: "<<teachers[i].id<<", Subject: "<<teachers[i].subject<<std::endl;
+    }
+    std::cout<<"---Students---"<<std::endl;
+    for(int i=0;i<students.size();i++){
+        std::cout<<"Name: "<<students[i].name<<", ID: "<<students[i].id<<", Group: "<<students[i].Groupinformation<<std::endl;
+    }
+    std::cout<<"Enter any key to return to the previous menu...";
+    std::string c;
+    std::cin>>c;
+}
 void showTeacherMenu(std::string teacherId){
-    printf("================= Teacher Menu =================\n");
-    printf("1.Show Teacher Information\n2.Write Student Grade\n3.Show Student Grade\n4.Add New Student\n5.Remove Student\n0.Exit");
-    printf("\nPlease enter your choice: ");
     std::string choice;
-    scanf("%s",&choice);
-    if(choice=="1"){
-        showTeacherInforation(teacherId);
-    }else if(choice=="2"){
-        writeStudentGrade(teacherId);
-    }else if(choice=="3"){
-        showStudentGrade(teacherId);
-    }else if(choice=="4"){
-        addStudent(teacherId);
-    }else if(choice=="5"){
-        removeStudent(teacherId);
-    }else if(choice=="0"){
-        return;
-    }else{
-        printf("Invalid choice. Please try again.\n");
+    
+    while(true){
+        system("cls");
+        std::cout<<"================= Teacher Menu ================="<<std::endl;
+        std::cout<<"1. Show Teacher Information"<<std::endl;
+        std::cout<<"2. Write Student Grade"<<std::endl;
+        std::cout<<"3. Show Student Grade"<<std::endl;
+        std::cout<<"4. Add New Student"<<std::endl;
+        std::cout<<"5. Remove Student"<<std::endl;
+        std::cout<<"6. Change Student Password"<<std::endl;
+        std::cout<<"7. Show All Users"<<std::endl;
+        std::cout<<"0. Exit"<<std::endl;
+        std::cout<<"Please enter your choice: ";
+        std::cin>>choice;
+
+        if(choice=="1"){
+            system("cls");
+            showTeacherInforation(teacherId);
+        }
+        else if(choice=="2"){
+            system("cls");
+            writeStudentGrade(teacherId);
+        }
+        else if(choice=="3"){
+            system("cls");
+            showStudentGrade(teacherId);
+        }
+        else if(choice=="4"){
+            system("cls");
+            addStudent(teacherId);
+        }
+        else if(choice=="5"){
+            system("cls");
+            removeStudent(teacherId);
+        }
+        else if(choice=="6"){
+            system("cls");
+            exchangeStudentPassword(teacherId);
+        }
+        else if (choice=="7")
+        {
+            system("cls");
+            showAllUsers(teacherId);
+        }
+        else if(choice=="0"){
+            std::cout<<"Returning to main menu..."<<std::endl;
+            Sleep(1000);
+            break;
+        }
+        else{
+            std::cout<<"Invalid choice. Press any key to try again."<<std::endl;
+            std::string c;
+            std::cin>>c;
+        }
     }
 }
-

@@ -2,6 +2,7 @@
 #define TEACHER_H
 
 #include <string>
+#include <vector>
 
 struct Teacher {
     std::string name;
@@ -9,5 +10,7 @@ struct Teacher {
     std::string password;
     std::string subject;
 };
-std::vector<Teacher> teachers;
+
+extern std::vector<Teacher> teachers;
+
 #endif

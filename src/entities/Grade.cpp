@@ -1,2 +1,1 @@
-#include "../../include/entities/Grade.h"
-
+#include "entities/Grade.h"

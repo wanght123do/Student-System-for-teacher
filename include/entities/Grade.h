@@ -14,7 +14,6 @@ struct Grade {
     int physics;
     int politics;
     int total;
-    
 };
 
 #endif

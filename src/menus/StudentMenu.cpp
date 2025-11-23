@@ -1,12 +1,13 @@
-#include <../../include/entities/Grade.h>
-#include <../../include/services/GradeService.h>
-#include <../../include/menus/teacherMenu.h>
-#include <../../include/entities/Teacher.h>
+#include "entities/Grade.h"
+#include "services/GradeService.h"
+#include "menus/TeacherMenu.h"
+#include "entities/Teacher.h"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <windows.h>
-#include <../../include/entities/Student.h>
+#include "entities/Student.h"
+
 void viewGrades(std::string studentId){
     for(int i=0;i<students.size();i++){
         if(students[i].id==studentId){
@@ -30,8 +31,8 @@ void viewGrades(std::string studentId){
     std::cout<<"Press any key to return to the previous menu...";
     std::string c;
     std::cin>>c;
-    return;
 }
+
 void showStudentInfo(std::string studentId){
     for(int i=0;i<students.size();i++){
         if(students[i].id==studentId){
@@ -44,7 +45,11 @@ void showStudentInfo(std::string studentId){
             break;
         }
     }
+    std::cout<<"Press any key to return to the previous menu...";
+    std::string c;
+    std::cin>>c;
 }
+
 void changeStudentPassword(std::string studentId){
     std::string newPassword;
     std::cout<<"Please enter your new password: ";
@@ -52,32 +57,49 @@ void changeStudentPassword(std::string studentId){
     for(int i=0;i<students.size();i++){
         if(students[i].id==studentId){
             students[i].password=newPassword;
-            std::cout<<"Password changed successfully. Press any key to return to the previous menu...";
-            std::string c;
-            std::cin>>c;
-            return;
+            std::cout<<"Password changed successfully.";
+            break;
         }
     }
+    std::cout<<" Press any key to return to the previous menu...";
+    std::string c;
+    std::cin>>c;
 }
+
 void showStudentMenu(std::string studentId){
-    std::cout<<"==============Student Menu=============="<<std::endl;
-    std::cout<<"1.View Grade\n2.Show Your Information\n3.Change Your Password\n0.Exit"<<std::endl;
-    std::cout<<"Plaese choose:";
     std::string choice;
-    std::cin>>choice;
-    if(choice=="1"){
-        viewGrades(studentId);
-    }
-    else if(choice=="2"){
-        showStudentInfo(studentId);
-    }
-    else if(choice=="3"){
-        changeStudentPassword(studentId);
-    }
-    else if(choice=="0"){
-        return;
-    }
-    else{
-        std::cout<<"Invalid choice. Please try again.\n"<<std::endl;
+    
+    while(true){
+        system("cls");
+        std::cout<<"============== Student Menu =============="<<std::endl;
+        std::cout<<"1. View Grade"<<std::endl;
+        std::cout<<"2. Show Your Information"<<std::endl;
+        std::cout<<"3. Change Your Password"<<std::endl;
+        std::cout<<"0. Exit"<<std::endl;
+        std::cout<<"Please choose: ";
+        std::cin>>choice;
+
+        if(choice=="1"){
+            system("cls");
+            viewGrades(studentId);
+        }
+        else if(choice=="2"){
+            system("cls");
+            showStudentInfo(studentId);
+        }
+        else if(choice=="3"){
+            system("cls");
+            changeStudentPassword(studentId);
+        }
+        else if(choice=="0"){
+            std::cout<<"Returning to main menu..."<<std::endl;
+            Sleep(1000);
+            break;
+        }
+        else{
+            std::cout<<"Invalid choice. Press any key to try again."<<std::endl;
+            std::string c;
+            std::cin>>c;
+        }
     }
 }
