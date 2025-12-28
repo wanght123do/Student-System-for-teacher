@@ -92,6 +92,7 @@ void showStudentMenu(std::string studentId){
             changeStudentPassword(studentId);
         }
         else if(choice=="0"){
+            system("cls");
             std::cout<<"Returning to main menu..."<<std::endl;
             Sleep(1000);
             break;

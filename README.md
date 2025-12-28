@@ -12,20 +12,19 @@ please use the "build.bat" file to use.
 ## Third:Update
 We will update this system.These are some rules about update.  
 ### 🎯 Official Releases 
-v1.2.0 - Stable Release  
-
-v1.1.5 - Production Release  
-
-v1.0.0 - General Availability (GA)
+vx.x.x - Stable Release  
 
 ### 🔬 Pre-releases 
-v1.3.0-beta.1 - Beta Release  
+vx.x.x-beta.x - Beta Release  
 
-v1.3.0-alpha.3 - Alpha Release  
+vx.x.x-alpha.x - Alpha Release  
 
-v1.2.1-rc.2 - Release Candidate  
+vx.x.x-rc.x - Release Candidate  
 
-v2.0.0-dev - Development Build  
+vx.x.x-dev - Development Build  
+
+### You can watch the UpdateLog to know what we do! It's so cool! 
+
 
 ## fourth:our team
 member:wang (just me)  

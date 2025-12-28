@@ -7,6 +7,8 @@
 #include <vector>
 #include <windows.h>
 #include "entities/Student.h"
+#include <stdlib.h>  // 用于 rand(), srand()  
+#include <time.h>    // 用于 time()
 
 void showTeacherInforation(std::string teacherId){
     for(int i=0;i<teachers.size();i++){
@@ -180,6 +182,68 @@ void showAllUsers(std::string teacherId){
     std::string c;
     std::cin>>c;
 }
+void giveAStudent(std::string teacherId){
+    srand(time(0));  
+    int positiveNum = 0 + (rand() % (int(1e7) - 0 + 1));  // A 到 B 
+    std::cout<<"The Student is: "<<students[positiveNum % students.size()].name<<", ID: "<<students[positiveNum % students.size()].id<<std::endl;
+    std::cout<<"Enter any key to return to the previous menu...";
+    std::string c;
+    std::cin>>c;
+}
+
+void checkStudentWithoutHomework(std::string teacherId){
+    std::vector<std::string>CheckStudentsHomework;
+    for(int i=0;i<students.size();i++){
+        if(students[i].grades.empty()){
+            CheckStudentsHomework.push_back(students[i].id);
+        }
+    }
+    std::cout<<"Please enter today not arrive to class student ID(enter 000 to break):"<<std::endl;
+    std::string notArriveStudentId;
+    while(true){
+        std::cin>>notArriveStudentId;
+        for(int i=0;i<CheckStudentsHomework.size();i++){
+            if(CheckStudentsHomework[i]==notArriveStudentId){
+                CheckStudentsHomework.erase(CheckStudentsHomework.begin()+i);
+            }
+        }
+        if(notArriveStudentId=="000"){
+            break;
+        }
+    }
+    std::cout<<"Please enter today give you his(her) homework student ID(enter 000 to break):"<<std::endl;
+    std::string giveHomeworkStudentId;  
+    while(true){
+        std::cin>>giveHomeworkStudentId;
+        for(int i=0;i<CheckStudentsHomework.size();i++){
+            if(CheckStudentsHomework[i]==giveHomeworkStudentId){
+                CheckStudentsHomework.erase(CheckStudentsHomework.begin()+i);
+            }
+        }
+        if(giveHomeworkStudentId=="000"){
+            break;
+        }
+    }
+    if(CheckStudentsHomework.empty()){
+        std::cout<<"All students have submitted their homework today!"<<std::endl;
+    }
+    else{
+        std::cout<<"The following students have not submitted their homework today:"<<std::endl;
+        for(int i=0;i<CheckStudentsHomework.size();i++){
+            for(int j=0;j<students.size();j++){
+                if(students[j].id==CheckStudentsHomework[i]){
+                    std::cout<<"Name: "<<students[j].name<<", ID: "<<students[j].id<<std::endl;
+                    break;
+                }
+            }
+        }
+    }
+    std::cout<<"\n";
+    std::cout<<"Enter any key to return to the previous menu...";
+    std::string c;
+    std::cin>>c;
+}
+
 void showTeacherMenu(std::string teacherId){
     std::string choice;
     
@@ -193,6 +257,8 @@ void showTeacherMenu(std::string teacherId){
         std::cout<<"5. Remove Student"<<std::endl;
         std::cout<<"6. Change Student Password"<<std::endl;
         std::cout<<"7. Show All Users"<<std::endl;
+        std::cout<<"8. Give A Student"<<std::endl;
+        std::cout<<"9. Check Students Without Homework"<<std::endl;
         std::cout<<"0. Exit"<<std::endl;
         std::cout<<"Please enter your choice: ";
         std::cin>>choice;
@@ -226,7 +292,16 @@ void showTeacherMenu(std::string teacherId){
             system("cls");
             showAllUsers(teacherId);
         }
+        else if(choice=="8"){
+            system("cls");
+            giveAStudent(teacherId);
+        }
+        else if(choice=="9"){
+            system("cls");
+            checkStudentWithoutHomework(teacherId);
+        }
         else if(choice=="0"){
+            system("cls");
             std::cout<<"Returning to main menu..."<<std::endl;
             Sleep(1000);
             break;

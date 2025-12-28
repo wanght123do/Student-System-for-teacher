@@ -11,4 +11,6 @@ void addStudent(std::string teacherId);
 void removeStudent(std::string teacherId);
 void exchangeStudentPassword(std::string teacherId);
 void showAllUsers(std::string teacherId);
+void giveAStudent(std::string teacherId);
+void checkStudentWithoutHomework(std::string teacherId);
 #endif
