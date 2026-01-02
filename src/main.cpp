@@ -9,6 +9,7 @@
 #include "auth/AuthService.h"
 #include "menus/TeacherMenu.h"
 #include "menus/StudentMenu.h"
+#include <fstream>
 
 extern std::vector<Student> students;
 extern std::vector<Teacher> teachers;
