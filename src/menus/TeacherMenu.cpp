@@ -9,6 +9,7 @@
 #include "entities/Student.h"
 #include <stdlib.h>  // 用于 rand(), srand()  
 #include <time.h>    // 用于 time()
+#include "../include/services/ExamService.h"
 
 void showTeacherInforation(std::string teacherId){
     for(int i=0;i<teachers.size();i++){
@@ -21,6 +22,7 @@ void showTeacherInforation(std::string teacherId){
         }
     }
     std::cout<<"Enter any key to return to the previous menu...";
+    std::cout<<"\n";
     std::string c;
     std::cin>>c;
 }
@@ -66,7 +68,7 @@ void writeStudentGrade(std::string teacherId){
     }
     
     system("cls");
-    std::cout<<"All student grades have been entered. Press any key to return to the previous menu...";
+    std::cout<<"All student grades have been entered. Press any key to return to the previous menu...\n";
     std::string c;
     std::cin>>c;
 }
@@ -95,7 +97,7 @@ void showStudentGrade(std::string teacherId){
             break;
         }
     }
-    std::cout<<"Enter any key to return to the previous menu...";
+    std::cout<<"Enter any key to return to the previous menu...\n";
     std::string c;
     std::cin>>c;
 }
@@ -126,7 +128,7 @@ void addStudent(std::string teacherId){
     newStudent.ifAHeadGroup=studentIfAHeadGroup;
     newStudent.Groupinformation=studentGroupinformation;
     students.push_back(newStudent);
-    std::cout<<"Student added successfully. Press any key to return to the previous menu...";
+    std::cout<<"Student added successfully. Press any key to return to the previous menu...\n";
     std::string c;
     std::cin>>c;
 }
@@ -138,13 +140,13 @@ void removeStudent(std::string teacherId){
     for(int i=0;i<students.size();i++){
         if(students[i].id==studentId){
             students.erase(students.begin()+i);
-            std::cout<<"Student removed successfully. Press any key to return to the previous menu...";
+            std::cout<<"Student removed successfully. Press any key to return to the previous menu...\n";
             std::string c;
             std::cin>>c;
             return;
         }
     }
-    std::cout<<"Student ID not found. Press any key to return to the previous menu...";
+    std::cout<<"Student ID not found. Press any key to return to the previous menu...\n";
     std::string c;
     std::cin>>c;
 }
@@ -158,13 +160,13 @@ void exchangeStudentPassword(std::string teacherId){
     for(int i=0;i<students.size();i++){
         if(students[i].id==studentId){
             students[i].password=newPassword;
-            std::cout<<"Student password changed successfully. Press any key to return to the previous menu...";
+            std::cout<<"Student password changed successfully. Press any key to return to the previous menu...\n";
             std::string c;
             std::cin>>c;
             return;
         }
     }
-    std::cout<<"Student ID not found. Press any key to return to the previous menu...";
+    std::cout<<"Student ID not found. Press any key to return to the previous menu...\n";
     std::string c;
     std::cin>>c;
 }
@@ -178,7 +180,7 @@ void showAllUsers(std::string teacherId){
     for(int i=0;i<students.size();i++){
         std::cout<<"Name: "<<students[i].name<<", ID: "<<students[i].id<<", Group: "<<students[i].Groupinformation<<std::endl;
     }
-    std::cout<<"Enter any key to return to the previous menu...";
+    std::cout<<"Enter any key to return to the previous menu...\n";
     std::string c;
     std::cin>>c;
 }
@@ -186,7 +188,7 @@ void giveAStudent(std::string teacherId){
     srand(time(0));  
     int positiveNum = 0 + (rand() % (int(1e7) - 0 + 1));  // A 到 B 
     std::cout<<"The Student is: "<<students[positiveNum % students.size()].name<<", ID: "<<students[positiveNum % students.size()].id<<std::endl;
-    std::cout<<"Enter any key to return to the previous menu...";
+    std::cout<<"Enter any key to return to the previous menu...\n";
     std::string c;
     std::cin>>c;
 }
@@ -239,11 +241,69 @@ void checkStudentWithoutHomework(std::string teacherId){
         }
     }
     std::cout<<"\n";
-    std::cout<<"Enter any key to return to the previous menu...";
+    std::cout<<"Enter any key to return to the previous menu...\n";
     std::string c;
     std::cin>>c;
 }
 
+void writeExamInformation(std::string teacherId) {
+    std::string subject, date, name;
+    
+   
+    for (int i = 0; i < teachers.size(); i++) {
+        if (teachers[i].id == teacherId) {
+            subject = teachers[i].subject;
+            break;
+        }
+    }
+    
+    
+    std::cout << "Please enter the exam date: ";
+    std::cin >> date;
+    std::cout << "Please enter the exam name: ";
+    std::cin >> name;
+    
+   
+    std::vector<char> answers;
+    std::string answerLine;
+    
+    std::cout << "Please enter the exam answers (enter 'end' on a new line to finish): " << std::endl;
+    std::cin.ignore(); 
+    while (true) {
+        std::getline(std::cin, answerLine);
+        
+       
+        if (answerLine == "end" || answerLine == "END") {
+            break;
+        }
+        
+       
+        for (char c : answerLine) {
+            answers.push_back(c);
+        }
+        
+       
+        answers.push_back('\n');
+    }
+    
+    
+    if (!answers.empty() && answers.back() == '\n') {
+        answers.pop_back();
+    }
+    
+    
+    exam newExam;
+    newExam.subject = subject;
+    newExam.date = date;
+    newExam.name = name;
+    newExam.answers = answers;
+    
+    exams.push_back(newExam);
+    
+    std::cout << "Exam information written successfully. Press any key to return to the previous menu...\n";
+    std::cin.ignore(); 
+    std::cin.get();   
+}
 void showTeacherMenu(std::string teacherId){
     std::string choice;
     
@@ -259,6 +319,7 @@ void showTeacherMenu(std::string teacherId){
         std::cout<<"7. Show All Users"<<std::endl;
         std::cout<<"8. Give A Student"<<std::endl;
         std::cout<<"9. Check Students Without Homework"<<std::endl;
+        std::cout<<"10. Write Exam Information"<<std::endl;
         std::cout<<"0. Exit"<<std::endl;
         std::cout<<"Please enter your choice: ";
         std::cin>>choice;
@@ -299,6 +360,10 @@ void showTeacherMenu(std::string teacherId){
         else if(choice=="9"){
             system("cls");
             checkStudentWithoutHomework(teacherId);
+        }
+        else if(choice=="10"){
+            system("cls");
+            writeExamInformation(teacherId);
         }
         else if(choice=="0"){
             system("cls");

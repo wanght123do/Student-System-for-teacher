@@ -112,6 +112,12 @@ echo    Building Student Management System
 echo ========================================
 echo.
 
+REM Clean build directory first to avoid duplicate files
+if exist build\obj (
+    echo Cleaning previous object files...
+    del build\obj\*.o 2>nul
+)
+
 REM Create build directories
 if not exist "build" mkdir build
 if not exist "build\release" mkdir build\release
@@ -119,44 +125,45 @@ if not exist "build\obj" mkdir build\obj
 
 echo Compiling source files...
 echo Please wait...
-echo Around one minute may be needed for the first build...
 
 setlocal enabledelayedexpansion
 set "compile_success=1"
 
-REM Compile each source file - 使用数组方式定义
-set source[0]=src/main.cpp
-set object[0]=build/obj/main.o
+echo.
+echo Finding all C++ source files...
+set file_count=0
 
-set source[1]=src/entities/GlobalData.cpp
-set object[1]=build/obj/GlobalData.o
+REM 查找所有cpp文件
+for /r src %%f in (*.cpp) do (
+    echo Found: %%f
+    set /a file_count+=1
+)
 
-set source[2]=src/auth/AuthService.cpp
-set object[2]=build/obj/AuthService.o
+echo.
+echo Total source files: !file_count!
+echo.
 
-set source[3]=src/menus/StudentMenu.cpp
-set object[3]=build/obj/StudentMenu.o
+REM 编译所有文件
+echo [1/2] Compiling all source files...
+set compiled_count=0
 
-set source[4]=src/menus/TeacherMenu.cpp
-set object[4]=build/obj/TeacherMenu.o
-
-set source[5]=src/services/GradeService.cpp
-set object[5]=build/obj/GradeService.o
-
-set count=6
-
-REM 编译每个文件
-for /l %%i in (0,1,5) do (
-    echo Compiling !source[%%i]!...
-    g++ -c "!source[%%i]!" -Iinclude -std=c++11 -static -o "!object[%%i]!" 2>&1
+for /r src %%f in (*.cpp) do (
+    echo Compiling: %%~nxf
+    for %%i in ("%%f") do set "filename=%%~ni"
+    g++ -c "%%f" -Iinclude -std=c++11 -static -static-libgcc -static-libstdc++ -o "build\obj\!filename!.o" 2>&1
     if !errorlevel! neq 0 (
-        echo Error compiling !source[%%i]!
+        echo Error compiling %%~nxf
         set "compile_success=0"
+    ) else (
+        set /a compiled_count+=1
     )
 )
 
+echo.
+echo Compiled: !compiled_count! files
+echo.
+
 if !compile_success! equ 0 (
-    echo.
     echo ========================================
     echo    COMPILATION FAILED!
     echo ========================================
@@ -164,44 +171,54 @@ if !compile_success! equ 0 (
     exit /b 1
 )
 
+echo [2/2] Linking object files...
 echo.
-echo Linking...
-g++ build/obj/*.o -static -static-libgcc -static-libstdc++ -o build/release/StudentManagementSystem.exe
 
-if %errorlevel% equ 0 (
+REM 链接所有对象文件
+g++ build\obj\*.o -static -static-libgcc -static-libstdc++ -o build\release\StudentManagementSystem.exe
+
+if !errorlevel! equ 0 (
     echo.
     echo ========================================
     echo    BUILD SUCCESSFUL!
     echo ========================================
-    echo Executable: build\release\StudentManagementSystem.exe
+    echo Executable created: build\release\StudentManagementSystem.exe
     echo.
     
-    REM Ask if user wants to run the program
-    set /p run_program="Run program now? (Y/N): "
-    if /i "!run_program!"=="Y" (
-        echo Starting program...
-        echo ========================================
-        build\release\StudentManagementSystem.exe
-    ) else (
-        echo.
-        echo You can run the program manually from:
-        echo   build\release\StudentManagementSystem.exe
+    REM 自动运行程序
+    echo Auto-running the program...
+    echo ========================================
+    echo.
+    timeout /t 2 /nobreak >nul
+    
+    REM 运行程序
+    cd build\release
+    StudentManagementSystem.exe
+    cd ..\..
+    
+    echo.
+    echo ========================================
+    echo    Program execution completed
+    echo ========================================
+    echo.
+    REM 询问是否清理
+    echo.
+    set /p cleanup="Clean up object files? (Y/N): "
+    if /i "!cleanup!"=="Y" (
+        if exist build\obj del build\obj\*.o
+        echo Object files cleaned.
     )
 ) else (
     echo.
     echo ========================================
     echo    LINKING FAILED!
     echo ========================================
+    echo.
+    echo Object files in build\obj\:
+    dir /b build\obj\*.o
+    echo.
     pause
     exit /b 1
-)
-
-REM Cleanup option
-echo.
-set /p cleanup="Clean up object files? (Y/N): "
-if /i "!cleanup!"=="Y" (
-    if exist build\obj del build\obj\*.o
-    echo Object files cleaned.
 )
 
 echo.

@@ -7,6 +7,7 @@
 #include <vector>
 #include <windows.h>
 #include "entities/Student.h"
+#include "../include/services/ExamService.h"
 
 void viewGrades(std::string studentId){
     for(int i=0;i<students.size();i++){
@@ -28,7 +29,7 @@ void viewGrades(std::string studentId){
             break;
         }
     }
-    std::cout<<"Press any key to return to the previous menu...";
+    std::cout<<"Press any key to return to the previous menu..."<<std::endl;
     std::string c;
     std::cin>>c;
 }
@@ -61,11 +62,43 @@ void changeStudentPassword(std::string studentId){
             break;
         }
     }
-    std::cout<<" Press any key to return to the previous menu...";
+    std::cout<<" Press any key to return to the previous menu..."<<std::endl;
     std::string c;
     std::cin>>c;
 }
 
+void lookExamInformation(std::string studentId){
+    std::cout<<"Please enter the exam subject and name you want to view: "<<std::endl;
+    std::string subject,name;
+    std::cout<<"Subject: ";
+    std::cin>>subject;
+    std::cout<<"Name: ";
+    std::cin>>name;
+    bool found=false;
+    for(int i=0;i<exams.size();i++){
+        if(exams[i].subject==subject && exams[i].name==name){
+            found=true;
+            std::cout<<"============Exam Information============"<<std::endl;
+            std::cout<<"Subject: "<<exams[i].subject<<std::endl;
+            std::cout<<"Name: "<<exams[i].name<<std::endl;
+            std::cout<<"Date: "<<exams[i].date<<std::endl;
+            std::cout<<"--------Answers--------"<<std::endl;
+            for(int j=0;j<exams[i].answers.size();j++){
+                std::cout<<exams[i].answers[j];
+            }
+            std::cout<<std::endl;
+            std::cout<<"========================================"<<std::endl;
+            std::cout<<std::endl;
+            break;
+        }
+    }
+    if(!found){
+        std::cout<<"No exam information found for the given subject and name."<<std::endl;
+    }
+    std::cout<<"Press any key to return to the previous menu..."<<std::endl;
+    std::string c;
+    std::cin>>c;
+}
 void showStudentMenu(std::string studentId){
     std::string choice;
     
@@ -75,6 +108,7 @@ void showStudentMenu(std::string studentId){
         std::cout<<"1. View Grade"<<std::endl;
         std::cout<<"2. Show Your Information"<<std::endl;
         std::cout<<"3. Change Your Password"<<std::endl;
+        std::cout<<"4. Look Exam Information"<<std::endl;
         std::cout<<"0. Exit"<<std::endl;
         std::cout<<"Please choose: ";
         std::cin>>choice;
@@ -90,6 +124,10 @@ void showStudentMenu(std::string studentId){
         else if(choice=="3"){
             system("cls");
             changeStudentPassword(studentId);
+        }
+        else if(choice=="4"){
+            system("cls");
+            lookExamInformation(studentId);
         }
         else if(choice=="0"){
             system("cls");

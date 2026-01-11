@@ -10,14 +10,38 @@
 #include "menus/TeacherMenu.h"
 #include "menus/StudentMenu.h"
 #include <fstream>
+#include "services/InformationService.h"
 
 extern std::vector<Student> students;
 extern std::vector<Teacher> teachers;
 
 void showMainMenu();
 
+void ensureTeachersFile() {
+    std::ofstream test("build/teachers.txt", std::ios::app);
+    if (test.is_open()) {
+        test.close();
+        std::cout << "Teachers file ensured" << std::endl;
+    } else {
+        std::cout << "Warning: Cannot ensure teachers file" << std::endl;
+    }
+}
+
+void ensureStudentsFile() {
+    std::ofstream test("build/students.txt", std::ios::app);
+    if (test.is_open()) {
+        test.close();
+        std::cout << "Students file ensured" << std::endl;
+    } else {
+        std::cout << "Warning: Cannot ensure students file" << std::endl;
+    }
+}
 int main(){
     system("cls");
+    ensureTeachersFile();
+    ensureStudentsFile();
+    readStudentsInformation();
+    readTeachersInformation();
     std::cout<<"Welcome to this system!"<<std::endl;
     Sleep(2000);
     showMainMenu();

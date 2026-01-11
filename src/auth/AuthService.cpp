@@ -42,9 +42,10 @@ void teacherSignUp(){
     Teacher newTeacher={name,id,password,subject};
     teachers.push_back(newTeacher);
     std::cout<<"Teacher sign up successful!"<<std::endl;
-    /*std::ofstream teachersignupout("build/teachers.txt", std::ios::app);
+    std::ofstream teachersignupout("build/teachers.txt", std::ios::app);
+    teachersignupout.open("build/teachers.txt", std::ios::app);
     teachersignupout<<name<<" "<<id<<" "<<password<<" "<<subject<<"\n";
-    teachersignupout.close();*/
+    teachersignupout.close();
     Sleep(1000);
 }
 
@@ -83,8 +84,9 @@ void studentSignUp(){
     Student newStudent={name,id,gender,birthday,password,ifAHeadGroup,Groupinformation,{}};
     students.push_back(newStudent);
     std::cout<<"Student sign up successful!"<<std::endl;
-    /*std::ofstream studentsignupout("build/students.txt", std::ios::app);
+    std::ofstream studentsignupout("build/students.txt", std::ios::app);
+    studentsignupout.open("build/students.txt", std::ios::app);
     studentsignupout<<name<<" "<<id<<" "<<gender<<" "<<birthday<<" "<<password<<" "<<ifAHeadGroup<<" "<<Groupinformation<<"\n";
-    studentsignupout.close();*/
+    studentsignupout.close();
     Sleep(1000);
 }
