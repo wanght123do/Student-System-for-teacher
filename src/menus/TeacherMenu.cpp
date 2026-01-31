@@ -304,6 +304,33 @@ void writeExamInformation(std::string teacherId) {
     std::cin.ignore(); 
     std::cin.get();   
 }
+
+void showStudentInfoForTeacher(std::string teacherId){
+    std::cout<<"Please enter the student name:";
+    std::string studentNameForCheck;
+    std::cin>>studentNameForCheck;
+    for(int i=0;i<students.size();i++){
+        if(students[i].name==studentNameForCheck){
+            std::cout<<"Name:"<<students[i].name<<std::endl;
+            std::cout<<"ID:"<<students[i].id<<std::endl;
+            std::cout<<"Password:";
+            for(int i=1;i<=students[i].password.size();i++){
+                std::cout<<"*";
+            }
+            std::cout<<std::endl;
+            std::cout<<"Birthday:"<<students[i].birthday<<std::endl;
+            std::cout<<"Group:"<<students[i].Groupinformation<<std::endl;
+            std::cout<<"Enter any key to return to the previous menu...\n";
+            std::string c;
+            std::cin>>c;
+            return ;
+        }
+    }
+    std::cout<<"Student \""<<studentNameForCheck<<"\" not found!"<<std::endl;
+    std::cout<<"Enter any key to return to the previous menu...\n";
+    std::string c;
+    std::cin>>c;
+}
 void showTeacherMenu(std::string teacherId){
     std::string choice;
     
@@ -320,6 +347,7 @@ void showTeacherMenu(std::string teacherId){
         std::cout<<"8. Give A Student"<<std::endl;
         std::cout<<"9. Check Students Without Homework"<<std::endl;
         std::cout<<"10. Write Exam Information"<<std::endl;
+        std::cout<<"11. Show Student Information"<<std::endl;
         std::cout<<"0. Exit"<<std::endl;
         std::cout<<"Please enter your choice: ";
         std::cin>>choice;
@@ -364,6 +392,10 @@ void showTeacherMenu(std::string teacherId){
         else if(choice=="10"){
             system("cls");
             writeExamInformation(teacherId);
+        }
+        else if(choice=="11"){
+            system("cls");
+            showStudentInfoForTeacher(teacherId);
         }
         else if(choice=="0"){
             system("cls");
