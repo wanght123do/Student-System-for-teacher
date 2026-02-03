@@ -2,14 +2,13 @@
 #define EXAM_SERVICE_H
 
 #include <vector>
-#include "../entities/Student.h"
+#include "../entities/Exam.h"  // 使用统一的Exam定义
 
-struct exam{
-    std::string subject;
-    std::string date;
-    std::string name;
-    std::vector<char> answers;
-};
-extern std::vector<exam> exams;
+// 现在使用Exam（大写E）而不是exam
+extern std::vector<Exam> exams;
+
+// 函数声明
+void loadExamsFromDatabase();
+void initializeExams();
 
 #endif

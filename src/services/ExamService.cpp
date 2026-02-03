@@ -1,3 +1,3 @@
 #include "../include/services/ExamService.h"
 
-std::vector<exam> exams;
+std::vector<Exam> exams;

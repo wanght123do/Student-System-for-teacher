@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 > nul
-title Student Management System Compiler
+title Student Management System Compiler (JSON Edition)
 
 set "MINGW_URL=https://github.com/niXman/mingw-builds-binaries/releases/download/13.2.0-rt_v11-rev2/x86_64-13.2.0-release-win32-seh-msvcrt-rt_v11-rev2.7z"
 set "MINGW_ARCHIVE=mingw64.7z"
@@ -9,6 +9,7 @@ set "MINGW_DIR=mingw64"
 echo.
 echo ========================================
 echo    Student Management System Compiler
+echo          (JSON Edition)
 echo ========================================
 echo.
 
@@ -17,7 +18,7 @@ echo Checking for g++ compiler...
 g++ --version > nul 2>&1
 if %errorlevel% equ 0 (
     echo ✓ g++ compiler found.
-    goto :COMPILE
+    goto :CHECK_JSON
 )
 
 echo ✗ g++ compiler not found!
@@ -105,10 +106,38 @@ set "PATH=%mingw_path%;%PATH%"
 echo ✓ g++ added to PATH.
 goto :CHECK_COMPILER
 
+:CHECK_JSON
+echo.
+echo Checking for JSON library...
+if exist third_party\json.hpp (
+    echo ✓ JSON library found.
+) else (
+    echo ✗ JSON library not found!
+    echo Downloading nlohmann/json library...
+    
+    REM Create third_party directory if it doesn't exist
+    if not exist third_party mkdir third_party
+    
+    REM Download JSON library using curl or PowerShell
+    if exist curl.exe (
+        curl -L -o third_party\json.hpp https://github.com/nlohmann/json/releases/download/v3.11.2/json.hpp --progress-bar
+    ) else (
+        powershell -Command "Invoke-WebRequest -Uri 'https://github.com/nlohmann/json/releases/download/v3.11.2/json.hpp' -OutFile 'third_party\json.hpp'" > nul 2>&1
+    )
+    
+    if exist third_party\json.hpp (
+        echo ✓ JSON library downloaded successfully.
+    ) else (
+        echo ⚠ Warning: Failed to download JSON library.
+        echo   Some features may not work properly.
+    )
+)
+
 :COMPILE
 echo.
 echo ========================================
 echo    Building Student Management System
+echo          (JSON Edition)
 echo ========================================
 echo.
 
@@ -119,6 +148,8 @@ if exist build\obj (
 )
 
 REM Create build directories
+if not exist "data" mkdir data
+if not exist "backups" mkdir backups
 if not exist "build" mkdir build
 if not exist "build\release" mkdir build\release
 if not exist "build\obj" mkdir build\obj
@@ -147,10 +178,13 @@ REM 编译所有文件
 echo [1/2] Compiling all source files...
 set compiled_count=0
 
+REM 设置包含路径（包含third_party）
+set "INCLUDE_PATH=-Iinclude -Ithird_party"
+
 for /r src %%f in (*.cpp) do (
     echo Compiling: %%~nxf
     for %%i in ("%%f") do set "filename=%%~ni"
-    g++ -c "%%f" -Iinclude -std=c++11 -static -static-libgcc -static-libstdc++ -o "build\obj\!filename!.o" 2>&1
+    g++ -c "%%f" %INCLUDE_PATH% -std=c++17 -static -static-libgcc -static-libstdc++ -o "build\obj\!filename!.o" 2>&1
     if !errorlevel! neq 0 (
         echo Error compiling %%~nxf
         set "compile_success=0"
@@ -175,7 +209,7 @@ echo [2/2] Linking object files...
 echo.
 
 REM 链接所有对象文件
-g++ build\obj\*.o -static -static-libgcc -static-libstdc++ -o build\release\StudentManagementSystem.exe
+g++ build\obj\*.o %INCLUDE_PATH% -std=c++17 -static -static-libgcc -static-libstdc++ -o build\release\StudentManagementSystem.exe
 
 if !errorlevel! equ 0 (
     echo.
@@ -185,7 +219,19 @@ if !errorlevel! equ 0 (
     echo Executable created: build\release\StudentManagementSystem.exe
     echo.
     
+    REM 复制必要的文件到release目录
+    echo Copying data files...
+    if exist data copy data\*.json build\release\data\ > nul 2>&1
+    if exist build\students.txt copy build\students.txt build\release\ > nul 2>&1
+    if exist build\teachers.txt copy build\teachers.txt build\release\ > nul 2>&1
+    
+    echo.
+    echo System Information:
+    echo -------------------
+    dir build\release\StudentManagementSystem.exe | find "StudentManagementSystem.exe"
+    
     REM 自动运行程序
+    echo.
     echo Auto-running the program...
     echo ========================================
     echo.
@@ -208,6 +254,21 @@ if !errorlevel! equ 0 (
         if exist build\obj del build\obj\*.o
         echo Object files cleaned.
     )
+    
+    REM 询问是否查看JSON文件
+    echo.
+    set /p view_json="View generated JSON data file? (Y/N): "
+    if /i "!view_json!"=="Y" (
+        if exist data\students_data.json (
+            echo.
+            echo JSON Data File Preview:
+            echo =======================
+            type data\students_data.json | findstr /C:"metadata" /C:"students" /C:"teachers" | head -20
+            echo =======================
+        ) else (
+            echo JSON data file not found.
+        )
+    )
 ) else (
     echo.
     echo ========================================
@@ -225,5 +286,11 @@ echo.
 echo ========================================
 echo    Build process completed!
 echo ========================================
+echo.
+echo Features Enabled:
+echo ✓ JSON Data Storage
+echo ✓ Automatic Backups
+echo ✓ Data Migration
+echo ✓ Real-time Saving
 echo.
 pause

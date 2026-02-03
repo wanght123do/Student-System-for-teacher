@@ -292,7 +292,7 @@ void writeExamInformation(std::string teacherId) {
     }
     
     
-    exam newExam;
+    Exam newExam;
     newExam.subject = subject;
     newExam.date = date;
     newExam.name = name;
